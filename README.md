@@ -1,4 +1,4 @@
 MemeGenerator
 =============
 
-A small library that will help you write text on images.You can use it like a meme generator.
+A small library that will help you generate meme's by writing the upper and lower text on images.
