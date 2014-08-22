@@ -20,10 +20,7 @@ class MemeGenerator{
 	
 	private function CheckTextWidthExceedImage($imgWidth,$fontWidth) {
 	
-			if($imgWidth < $fontWidth + 20 )
-				 return true;
-			else 
-				 return false;
+			return ($imgWidth < $fontWidth + 20);
 	}
 	
 	private function GetFontPlacementCoordinates($text,$fontSize)
@@ -70,10 +67,7 @@ class MemeGenerator{
 	
 	private function WorkOnImage($text,$size,$type)
 	{
-			if($type == "upper")
-				$TextHeight = 35;
-			else
-				$TextHeight = $this->imgSize[1] - 20;
+		$TextHeight = ($type == "upper") ? 35 : $this->imgSize[1] - 20;
 
 		while(1)
 		{
@@ -91,10 +85,8 @@ class MemeGenerator{
 			//check if the text does not exceed image width if yes then repeat with size = size - 1
 			if($this->CheckTextWidthExceedImage($this->imgSize[0],$coords[2] - $coords[0]))
 			{
-				if($type == "upper")
-					$TextHeight = $TextHeight - 1; 		//if it is top text take it up as font size decreases
-				else
-					$TextHeight = $TextHeight + 1; 		//if it is bottom text take it down as font size decreases		
+				//if top text take it up as font size decreases, if bottom text take it down as font size decreases
+				$TextHeight += ($type == "upper") ? - 1 : 1;
 
 				if($size == 10)		
 				{
@@ -134,8 +126,7 @@ class MemeGenerator{
 	private function ReturnMultipleLinesText($text,$type,$textHeight)
 	{
 		//breaks the whole sentence into multiple lines according to the width of the image.
-			
-			
+
 			//break sentence into an array of words by using the spaces as params
 			$brokenText = explode(" ",$text);
 			$finalOutput = "";
