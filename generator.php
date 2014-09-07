@@ -23,12 +23,10 @@ class MemeGenerator {
   }
 
   private function CheckTextWidthExceedImage($imgWidth, $fontWidth) {
-
     return ($imgWidth < $fontWidth + 20);
   }
 
   private function GetFontPlacementCoordinates($text, $fontSize) {
-
     /* 		returns 
      * 		Array
      * 		(
@@ -61,7 +59,6 @@ class MemeGenerator {
     $this->im = $this->ReturnImageFromPath($path);
     $this->imgSize = getimagesize($path);
 
-
     $this->background = imagecolorallocate($this->im, 255, 255, 255);
     imagecolortransparent($this->im, $this->background);
   }
@@ -78,8 +75,6 @@ class MemeGenerator {
         $UpperTextX = $this->getHorizontalTextAlignment($this->imgSize[0], $coords[4]);
       else
         $LowerTextX = $this->getHorizontalTextAlignment($this->imgSize[0], $coords[4]);
-
-
 
       //check if the text does not exceed image width if yes then repeat with size = size - 1
       if ($this->CheckTextWidthExceedImage($this->imgSize[0], $coords[2] - $coords[0])) {
