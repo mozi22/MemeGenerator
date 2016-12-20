@@ -9,7 +9,7 @@ A small library to generate meme's.
 **I am not contributing to this project anymore. Feel free to fork it.**
 
 
-## LICENSE
+## License
 ```
 Copyright 2015 Muazzam Ali
 
