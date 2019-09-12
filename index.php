@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +13,7 @@
     <div style="width:40%;margin:30px auto;" >
         <table>
             <tr>
-                <td colspan="2">
+                <td colspan="2" align="center">
                     <img src="testing.jpg" id="gag" />
                 </td>
             </tr>
@@ -23,7 +26,10 @@
                 </td>
             </tr>
             <tr>
-            	<td><p style="font-size:14px;color:#CCC;">Image updates on textbox focus out</p></td>
+            	<!-- td><p style="font-size:14px;color:#CCC;">Image updates on textbox focus out</p></td -->
+				<td colspan="2" align="center">
+					<button id="Generate" onClick="memeIt();"><big>Go!</big></button>
+				</td>
             </tr>
         </table>
     </div>
@@ -33,7 +39,7 @@
 <script src="jquery.js" type="text/javascript" ></script>
 <script>
 
-
+	/*
 	$('#lowerTextbox').focusout(function(){
 		if($.trim($(this).val()) != "")
 		{
@@ -46,9 +52,13 @@
 			SendAjaxRequest($(this).val(),$('#lowerTextbox').val(),"upper");
 		}
 	});
+	/**/
 	
+	function memeIt() {
+		SendAjaxRequest( $('#upperTextbox').val(), $('#lowerTextbox').val());
+	}
 	
-	function SendAjaxRequest(umsg,dmsg,type)
+	function SendAjaxRequest(umsg,dmsg,type='both')
 	{
 		$.ajax({
 			url: 'generator.php',
