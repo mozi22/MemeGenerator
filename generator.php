@@ -1,4 +1,5 @@
 <?php
+if ( !isset($_SESSION) ) session_start();
 class MemeGenerator{
 
 	private $upperText;
@@ -165,7 +166,7 @@ class MemeGenerator{
 	
 	public function cleanupPreviousImages($folder) {
 		//$images=scandir('/'.$folder);
-		$dir=dirname(__FILE__)."/memes";
+		$dir=dirname(__FILE__)."/$folder";
 		$images=scandir($dir);
 		array_shift($images);
 		array_shift($images);
@@ -179,7 +180,7 @@ class MemeGenerator{
 				if(!unlink($dir.'/'.$file)) { $images[$i]="ERROR DELETING $file"; }
 				else { $images[$i].=" -deleted"; }
 			} else {
-				$images[$i].=" -delete in ".($now-($fileM+$maxAge))." seconds";
+				$images[$i].=" -delete in ".(($fileM+$maxAge)-$now)." seconds";
 			}
 		}
 		
@@ -190,6 +191,7 @@ class MemeGenerator{
 	{
 		$imageFolder='memes';
 		$oldImages=$this->cleanupPreviousImages($imageFolder);
+		$originalImages=$this->cleanupPreviousImages('uploads');
 		
 		if (session_id() == "") {
 			session_start();
@@ -226,7 +228,8 @@ class MemeGenerator{
 		echo " {
 				\"imageFolder\":\"$imageFolder\",
 				\"imageFile\":\"$imageFile\",
-				\"oldImages\":".json_encode($oldImages)."
+				\"oldImages\":".json_encode($oldImages).",
+				\"originalImages\":".json_encode($originalImages)."
 			}
 		";
 		
@@ -235,10 +238,11 @@ class MemeGenerator{
 
 
 $file=$_SESSION['imageFile'];
-
-//if ( $file=='')  
-	$file='testing.jpg';
-//else { $file= 'uploads/'.$file; }
+if ( $file=='') {
+	$file=$_GET['uploadedImage'];
+	if ( $file=='') $file='arya.jpg';
+	else { $file= 'uploads/'.$file; }
+}
 	
 $obj = new MemeGenerator($file);
 $upmsg   = $_GET['upmsg'];
