@@ -66,8 +66,12 @@
 			data: { upmsg : umsg, downmsg : dmsg, position: type },
 			success:function(e)
 			{
-				$('#error').html(e);
-				$('#gag').attr('src',e);
+				console.log(e);
+				var response=JSON.parse(e);
+				//console.log(response);
+				//$('#error').html(e);
+				var src= response.imageFolder+'/'+response.imageFile+'?c='+ Math.random().toString(36).substring(2, 15);
+				$('#gag').attr('src',src);
 			}
 		});
 	}

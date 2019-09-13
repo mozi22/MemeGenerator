@@ -163,8 +163,34 @@ class MemeGenerator{
 		return "";//$finalOutput;		
 	}
 	
+	public function cleanupPreviousImages($folder) {
+		//$images=scandir('/'.$folder);
+		$dir=dirname(__FILE__)."/memes";
+		$images=scandir($dir);
+		array_shift($images);
+		array_shift($images);
+		
+		foreach ($images as $i => $file) {
+			$now=time();
+			$maxAge=30*60;
+			$fileM=filemtime($dir.'/'.$file);
+			
+			if( $fileM < $now - $maxAge ) {
+				if(!unlink($dir.'/'.$file)) { $images[$i]="ERROR DELETING $file"; }
+				else { $images[$i].=" -deleted"; }
+			} else {
+				$images[$i].=" -delete in ".($now-($fileM+$maxAge))." seconds";
+			}
+		}
+		
+		return $images;
+	}
+	
 	public function processImg() 
 	{
+		$imageFolder='memes';
+		$oldImages=$this->cleanupPreviousImages($imageFolder);
+		
 		if (session_id() == "") {
 			session_start();
 		}
@@ -193,13 +219,21 @@ class MemeGenerator{
 			$this->WorkOnImage($this->lowerText,"lower",(int)$this->background,+1,+1);
 			$this->WorkOnImage($this->lowerText,"lower",(int)$this->foreground);
 		}
-		imagejpeg($this->im,$imageFile);
+		imagejpeg($this->im,'.//'.$imageFolder.'//'.$imageFile);
 		imagedestroy($this->im);
 		
-		echo $imageFile;//"abc.jpg";
+		//echo "abc.jpg";
+		echo " {
+				\"imageFolder\":\"$imageFolder\",
+				\"imageFile\":\"$imageFile\",
+				\"oldImages\":".json_encode($oldImages)."
+			}
+		";
 		
 	}
 }
+
+
 $file=$_SESSION['imageFile'];
 
 //if ( $file=='')  
