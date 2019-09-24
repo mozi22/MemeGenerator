@@ -3,17 +3,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
 <title>Meme generator</title>
-<style>
-	body { text-align: center; font-size:18px; }
-	#gag { min-width: 384px; }
-	input[type="text"]  { width:384px; font-size:inherit; }
-	button { width:384px; font-size:inherit; margin: 0 4px; }
-	#takePhoto { width:190px; }
-	#uploadImage { width:190px; }
-	#Share { display:none; }
-	.inlineLogo { vertical-align: middle; display:inline; }
-</style>
 <script src="jquery.js" type="text/javascript" ></script>
 <script>
 	var uploadedFile;
@@ -64,6 +55,7 @@
 			console.log(file);
 			console.log('Size: ' + fileSize);
 		}
+		if (count>0) uploadFile();
 	}
 	function uploadFile() {
 		var fd = new FormData();
@@ -107,15 +99,29 @@
 	}
 	
 </script>	
+<style>
+	body { text-align: center; font-size:18px; }
+	#gag { min-width: 384px; max-width: calc( 100% - 12px); }
+	#fileToUpload { display:none;}
+	input[type="text"]  { width:384px; font-size:inherit; }
+	button { width:384px; font-size:inherit; margin: 0 4px; }
+	#takePhoto { width:190px; }
+	#uploadImage { width:190px; }
+	#Share { display:none; }
+	.inlineLogo { vertical-align: middle; display:inline; }
+	@media screen and (max-width: 384px){
+		body {transform: scale(.65);}
+	}
+</style>
 </head>
 
 <body onLoad="$('#upperTextbox').focus();">
 	
 <img src="arya.jpg" id="gag"/> <br/><br/>
 <input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected();" accept="image/*" capture="camera" /> 
-<span id="progress"></span> <br/><br/>
+ <br/><br/>
 <!-- button id="takePhoto" onClick="" >Take Photo</button -->
-<button id="uploadImage" onClick="uploadFile();" >Upload Image</button> <br/><br/>
+<button id="uploadImage" onClick="$('#fileToUpload').trigger('click');" >New Image</button><span id="progress"></span> <br/><br/>
 <input type="text" placeholder="Upper Text" id="upperTextbox" /> <br/><br/>
 <input type="text" placeholder="Lower Text" id="lowerTextbox" /> <br/><br/>
 <button id="Generate" onClick="memeIt();" >Go!</button> <br/><br/>

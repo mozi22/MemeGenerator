@@ -232,7 +232,6 @@ class MemeGenerator{
 				\"originalImages\":".json_encode($originalImages)."
 			}
 		";
-		
 	}
 }
 
